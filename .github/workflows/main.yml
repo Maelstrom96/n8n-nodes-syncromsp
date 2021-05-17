@@ -15,9 +15,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '12.x'
-        registry-url: 'https://npm.pkg.github.com'
-        scope: '@maelstrom96'
-        always-auth: true
+        registry-url: 'https://registry.npmjs.org'
         check-latest: true
     - name: npm install, lint, test and build
       run: |
@@ -41,7 +39,7 @@ jobs:
       name: Publish package to github package repository
       run: npm publish
       env: 
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
     - name: Archive code coverage results
       uses: actions/upload-artifact@v2
       with:
