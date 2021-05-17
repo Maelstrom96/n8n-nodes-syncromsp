@@ -1,6 +1,6 @@
 {
     "name": "n8n-nodes-syncromsp",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "SyncroMSP node for n8n.",
     "license": "SEE LICENSE IN LICENSE.md",
     "homepage": "https://github.com/maelstrom96/n8n-nodes-syncromsp",
