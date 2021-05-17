@@ -16,6 +16,8 @@ jobs:
       with:
         node-version: '12.x'
         registry-url: 'https://npm.pkg.github.com'
+        always-auth: false
+        check-latest: false
     - name: Cache node modules
       uses: actions/cache@v2
       env:
