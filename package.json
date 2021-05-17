@@ -14,11 +14,18 @@
     },
     "main": "index.js",
     "scripts": {
+        "prebuild": "npx rimraf dist",
+        "build": "npx tsc -b tsconfig.build.json && gulp",
         "dev": "npm run watch",
-        "build": "tsc && gulp",
-        "tslint": "tslint -p tsconfig.json -c tslint.json",
+        "lint": "tslint --project .",
         "watch": "tsc --watch",
-        "test": "jest"
+        "n8n": "n8n start",
+        "n8n:watch": "nodemon --exec npm run n8n",
+        "prerelease": "npm run build",
+        "release": "npm publish",
+        "test": "jest",
+        "test:coverage": "npm run test -- --coverage",
+        "tslint": "tslint -p tsconfig.json -c tslint.json"
     },
     "files": [
         "dist"
@@ -40,6 +47,7 @@
         "jest": "^26.4.2",
         "n8n-core": "0.70.0",
         "n8n-workflow": "~0.58.0",
+        "rimraf": "^3.0.2",
         "ts-jest": "^26.3.0",
         "tslint": "^6.1.2",
         "typescript": "~3.9.7"
@@ -60,5 +68,6 @@
             "js",
             "json"
         ]
-    }
+    },
+    "dependencies": {}
 }
