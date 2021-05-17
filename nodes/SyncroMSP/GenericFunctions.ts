@@ -48,13 +48,13 @@ export async function syncroApiRequestAllItems(this: IExecuteFunctions | ILoadOp
 	let returnData: IDataObject[] = [];
 
 	let responseData;
-	dataString = dataString || "data"
-	body.page = 1
+	dataString = dataString || "data";
+	body.page = 1;
 	let limit = Infinity;
 
 	try {
 		limit = this.getNodeParameter('limit', 0) as number;
-		limit = limit === 0 ? Infinity : limit
+		limit = limit === 0 ? Infinity : limit;
 	} catch (error) {}
 
 	do {

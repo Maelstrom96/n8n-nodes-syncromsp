@@ -12,8 +12,8 @@ import {
 } from 'n8n-workflow';
 
 import {
-	contactFields,
-	contactOperations,
+    contactFields,
+    contactOperations,
 } from './descriptions';
 
 import {
@@ -21,7 +21,7 @@ import {
 } from 'request';
 
 import {
-	syncroApiRequest,
+    syncroApiRequest,
     syncroApiRequestAllItems,
 } from './GenericFunctions';
 
@@ -67,40 +67,40 @@ export class SyncroMSP implements INodeType {
     };
 
     methods = {
-		loadOptions: {
-    		// Get all the companies to display them to user so that he can
-			// select them easily
-			async getCustomers(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
-				const returnData: INodePropertyOptions[] = [];
-				const customers = await syncroApiRequestAllItems.call(this, 'GET', '/customers', {}, undefined, 'customers');
+        loadOptions: {
+            // Get all the companies to display them to user so that he can
+            // select them easily
+            async getCustomers(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+                const returnData: INodePropertyOptions[] = [];
+                const customers = await syncroApiRequestAllItems.call(this, 'GET', '/customers', {}, undefined, 'customers');
 
-				for (const customer of customers) {
-					const customerName = customer.business_and_full_name;
-					const customerId = customer.id;
+                for (const customer of customers) {
+                    const customerName = customer.business_and_full_name;
+                    const customerId = customer.id;
 
-					returnData.push({
-						name: customerName,
-						value: customerId,
-					});
-				}
-				return returnData;
-			},
+                    returnData.push({
+                        name: customerName,
+                        value: customerId,
+                    });
+                }
+                return returnData;
+            },
             async getContacts(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
-				const returnData: INodePropertyOptions[] = [];
-				const contacts = await syncroApiRequestAllItems.call(this, 'GET', '/contacts', {}, undefined, 'contacts');
+                const returnData: INodePropertyOptions[] = [];
+                const contacts = await syncroApiRequestAllItems.call(this, 'GET', '/contacts', {}, undefined, 'contacts');
 
-				for (const contact of contacts) {
-					const contactName = contact.name;
-					const contactId = contact.id;
+                for (const contact of contacts) {
+                    const contactName = contact.name;
+                    const contactId = contact.id;
 
-					returnData.push({
-						name: contactName,
-						value: contactId,
-					});
-				}
-				return returnData;
-			},
-		},
+                    returnData.push({
+                        name: contactName,
+                        value: contactId,
+                    });
+                }
+                return returnData;
+            },
+        },
     };
 
     async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
@@ -109,55 +109,55 @@ export class SyncroMSP implements INodeType {
         const returnData: IDataObject[] = [];
         const resource = this.getNodeParameter('resource', 0) as string;
         const operation = this.getNodeParameter('operation', 0) as string;
-        
-        for (let i = 0; i < items.length; i++) {       
-            try {  
+
+        for (let i = 0; i < items.length; i++) {
+            try {
                 if (resource === 'contact') {
                     if (operation === 'create') {
-                        const customer_id = this.getNodeParameter('customer_id', i) as number;
+                        const customerID = this.getNodeParameter('customer_id', i) as number;
                         const name = this.getNodeParameter('name', i) as string;
                         // get additional fields input
                         const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
                         const body: IDataObject = {
-                            customer_id,
+                            customer_id: customerID,
                             name,
                         };
-            
+
                         Object.assign(body, additionalFields);
-            
+
                         responseData = await syncroApiRequest.call(this, 'POST', `/contacts`, body);
-                        
+
                     }
                     if (operation === 'update') {
-                        const contact_id = this.getNodeParameter('contact_id', i) as number;
-                        const customer_id = this.getNodeParameter('customer_id', i) as string;
+                        const contactID = this.getNodeParameter('contact_id', i) as number;
+                        const customerID = this.getNodeParameter('customer_id', i) as string;
                         const name = this.getNodeParameter('name', i) as string;
                         // get additional fields input
                         const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
                         const body: IDataObject = {};
 
-                        if (customer_id !== "") {
-                            body.customer_id = customer_id;
+                        if (customerID !== "") {
+                            body.customer_id = customerID;
                         }
                         if (name !== "") {
                             body.name = name;
                         }
 
                         Object.assign(body, additionalFields);
-            
-                        responseData = await syncroApiRequest.call(this, 'PUT', `/contacts/${contact_id}`, body);
+
+                        responseData = await syncroApiRequest.call(this, 'PUT', `/contacts/${contactID}`, body);
                     }
                     if (operation === 'get') {
-                        const contact_id = this.getNodeParameter('contact_id', i) as number;           
-                        responseData = await syncroApiRequest.call(this, 'GET', `/contacts/${contact_id}`);
+                        const contactID = this.getNodeParameter('contact_id', i) as number;
+                        responseData = await syncroApiRequest.call(this, 'GET', `/contacts/${contactID}`);
                     }
                     if (operation === 'getAll') {
-                        const customer_id = this.getNodeParameter('customer_id', i) as number;           
-                        responseData = await syncroApiRequestAllItems.call(this, 'GET', `/contacts`, {customer_id}, undefined, 'contacts');
+                        const customerID = this.getNodeParameter('customer_id', i) as number;
+                        responseData = await syncroApiRequestAllItems.call(this, 'GET', `/contacts`, { customer_id: customerID }, undefined, 'contacts');
                     }
                     if (operation === 'delete') {
-                        const contact_id = this.getNodeParameter('contact_id', i) as number;           
-                        responseData = await syncroApiRequest.call(this, 'DELETE', `/contacts/${contact_id}`);
+                        const contactID = this.getNodeParameter('contact_id', i) as number;
+                        responseData = await syncroApiRequest.call(this, 'DELETE', `/contacts/${contactID}`);
                     }
                 }
             } catch (error) {
@@ -170,16 +170,16 @@ export class SyncroMSP implements INodeType {
             }
 
             if (Array.isArray(responseData)) {
-				returnData.push.apply(returnData, responseData as IDataObject[]);
-			} else {
-				if (responseData === undefined) {
-					responseData = {
-						success: true,
-					};
-				}
+                returnData.push.apply(returnData, responseData as IDataObject[]);
+            } else {
+                if (responseData === undefined) {
+                    responseData = {
+                        success: true,
+                    };
+                }
 
-				returnData.push(responseData as IDataObject);
-			}
+                returnData.push(responseData as IDataObject);
+            }
         }
 
         // Map data to n8n data
