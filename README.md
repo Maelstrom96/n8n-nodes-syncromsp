@@ -1,4 +1,4 @@
-![CI](https://img.shields.io/github/workflow/status/Maelstrom96/n8n-nodes-syncromsp/CI/main) ![NPMV](https://img.shields.io/npm/v/n8n-nodes-syncromsp)
+![CI](https://img.shields.io/github/workflow/status/Maelstrom96/n8n-nodes-syncromsp/CI/main) ![NPMV](https://img.shields.io/npm/v/n8n-nodes-syncromsp) 
 # n8n-nodes-syncromsp
 
 This package provides nodes for [`n8n`](https://github.com/n8n-io/n8n) to work with [SyncroMSP](https://syncromsp.com).
@@ -55,3 +55,9 @@ The credentials uses 2 variables : `API Token` and `API Subdomain`.
 
 - `API Token` : You will need to generate a token using the [API Token menu](https://admin.syncromsp.com/api_tokens) found in the Admin section of Syncro. Make sure that you add the necessary permissions in order for the node actions to work properly.
 - `API Subdomain` : This is your SyncroMSP subdomain that was chosen when creating your account. (e.g. `XXXXX.syncromsp.com`, `XXXXX` being your API subdomain)
+
+## Donations
+
+If you would like to support this project, you can do so using the link below :
+
+<a href="https://www.buymeacoffee.com/ajjaxnet" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="drawing" height="42"/></a>
