@@ -21,7 +21,7 @@ export async function syncroApiRequest(this: IExecuteFunctions | ILoadOptionsFun
 		let options: OptionsWithUri = {
 			headers: {
 				'Accept': 'application/json',
-				'Authorization': `bearer ${credentials.apiKey}`,
+				'Authorization': `bearer ${credentials.apiToken}`,
 			},
 			method,
 			body,

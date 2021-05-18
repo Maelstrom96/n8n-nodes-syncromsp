@@ -9,8 +9,8 @@ export class SyncroMSPApi implements ICredentialType {
     documentationUrl = 'https://api-docs.syncromsp.com/';
     properties = [
         {
-            displayName: 'API Key',
-            name: 'apiKey',
+            displayName: 'API Token',
+            name: 'apiToken',
             type: 'string' as NodePropertyTypes,
             default: '',
             required: true,
