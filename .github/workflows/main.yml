@@ -17,6 +17,9 @@ jobs:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
         check-latest: true
+    - name: Check if version has been updated
+      id: check
+      uses: EndBug/version-check@v1
     - name: npm install, lint, test and build
       run: |
         npm install
@@ -35,7 +38,7 @@ jobs:
       with:
         name: dist
         path: dist
-    - if: github.event_name == 'push'
+    - if: github.event_name == 'push' && steps.check.outputs.changed == 'true'
       name: Publish package to github package repository
       run: npm publish
       env: 
