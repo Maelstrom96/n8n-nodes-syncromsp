@@ -142,7 +142,7 @@ export class SyncroMSP implements INodeType {
                         const name = this.getNodeParameter('name', i) as string;
                         // get additional fields input
                         const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
-                        const body: IDataObject = {};
+                        let body: IDataObject = {};
 
                         if (customerID !== "") {
                             body.customer_id = customerID;
@@ -151,7 +151,7 @@ export class SyncroMSP implements INodeType {
                             body.name = name;
                         }
 
-                        Object.assign(body, additionalFields);
+                        body = Object.assign(body, additionalFields);
 
                         responseData = await syncroApiRequest.call(this, 'PUT', `/contacts/${contactID}`, body);
                     }
@@ -175,10 +175,9 @@ export class SyncroMSP implements INodeType {
                         responseData = responseData.customer;
                     }
                     if (operation === 'getAll') {
-                        let additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
-                        console.log(additionalFields);
+                        const additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
                         let qs: IDataObject = {};
-                        Object.assign(qs, additionalFields);
+                        qs = Object.assign(qs, additionalFields);
                         responseData = await syncroApiRequestAllItems.call(this, 'GET', `/customers`, {}, qs, 'customers');
                     }
                     if (operation === 'delete') {
