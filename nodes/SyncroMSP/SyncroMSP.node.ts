@@ -14,6 +14,8 @@ import {
 import {
     contactFields,
     contactOperations,
+    customerFields,
+    customerOperations,
 } from './descriptions';
 
 import {
@@ -56,6 +58,10 @@ export class SyncroMSP implements INodeType {
                         name: 'Contact',
                         value: 'contact',
                     },
+                    {
+                        name: 'Customer',
+                        value: 'customer',
+                    },
                 ],
                 default: 'contact',
                 required: true,
@@ -63,6 +69,8 @@ export class SyncroMSP implements INodeType {
             },
             ...contactOperations,
             ...contactFields,
+            ...customerOperations,
+            ...customerFields,
         ],
     };
 
@@ -158,6 +166,28 @@ export class SyncroMSP implements INodeType {
                     if (operation === 'delete') {
                         const contactID = this.getNodeParameter('contact_id', i) as number;
                         responseData = await syncroApiRequest.call(this, 'DELETE', `/contacts/${contactID}`);
+                    }
+                }
+                if (resource === 'customer') {
+                    if (operation === 'get') {
+                        const customerID = this.getNodeParameter('customer_id', i) as number;
+                        responseData = await syncroApiRequest.call(this, 'GET', `/customers/${customerID}`);
+                        responseData = responseData.customer;
+                    }
+                    if (operation === 'getAll') {
+                        let additionalFields = this.getNodeParameter('additionalFields', i) as IDataObject;
+                        console.log(additionalFields);
+                        let qs: IDataObject = {};
+                        Object.assign(qs, additionalFields);
+                        responseData = await syncroApiRequestAllItems.call(this, 'GET', `/customers`, {}, qs, 'customers');
+                    }
+                    if (operation === 'delete') {
+                        const customerID = this.getNodeParameter('customer_id', i) as number;
+                        responseData = await syncroApiRequest.call(this, 'DELETE', `/customers/${customerID}`);
+                    }
+                    if (operation === 'latest') {
+                        responseData = await syncroApiRequest.call(this, 'GET', `/customers/latest`);
+                        responseData = responseData.customer;
                     }
                 }
             } catch (error) {

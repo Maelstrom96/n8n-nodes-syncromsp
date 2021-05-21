@@ -91,12 +91,12 @@ The currently supported ressources are :
   - [ ] Edit
   - [ ] Delete
 - [ ] Customer
-  - [ ] List/Search
+  - [x] List/Search
   - [ ] Create
-  - [ ] View Details
+  - [x] View Details
   - [ ] Edit
-  - [ ] Delete
-  - [ ] View latest
+  - [x] Delete
+  - [x] View latest
   - [ ] Autocomplete
 - [ ] Estimate
   - [ ] List/Search
